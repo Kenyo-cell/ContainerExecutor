@@ -1,0 +1,6 @@
+application:
+  environment:
+    language: python
+    commands:
+      - python3
+  port: 8081
