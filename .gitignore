@@ -5,3 +5,5 @@ target/
 *.zip
 doc/
 .vscode/
+**.txt
+*.py
