@@ -2,3 +2,6 @@
 .idea
 target/
 *.ans
+*.zip
+doc/
+.vscode/
