@@ -33,6 +33,7 @@ public class YAMLConfig {
     }
 
     private int port;
+    private String workdir;
     private Environment environment;
 
     public int getPort() {
@@ -41,6 +42,14 @@ public class YAMLConfig {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getWorkdir() {
+        return workdir;
+    }
+
+    public void setWorkdir(String workdir) {
+        this.workdir = workdir;
     }
 
     public void setEnvironment(Environment environment) {
