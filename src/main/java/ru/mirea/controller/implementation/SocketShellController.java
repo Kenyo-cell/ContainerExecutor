@@ -33,7 +33,7 @@ public class SocketShellController extends IShellController {
 
             ExecutionContextTransferObject transferObject = (ExecutionContextTransferObject) ois.readObject();
 
-            File source = new File(config.getWorkdir() + "source");
+            File source = new File(config.getWorkdir() + "source." + config.getEnvironment().getExtension());
             File input = new File(config.getWorkdir() + "input");
 
             Files.write(source.toPath(), transferObject.source());

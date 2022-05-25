@@ -34,18 +34,39 @@ public class Executor {
      */
     public byte[] execute(File source, File input) throws InterruptedException, IOException {
         File output = new File(config.getWorkdir() + "output");
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.redirectInput(input);
-        processBuilder.redirectErrorStream(true);
-        processBuilder.redirectOutput(ProcessBuilder.Redirect.to(output));
-        processBuilder.redirectError(ProcessBuilder.Redirect.appendTo(output));
-        var commands = new LinkedList<>(config.getEnvironment().getCommands());
-        commands.add(source.getAbsolutePath());
-        String[] command = commands.toArray(new String[0]);
 
-        processBuilder.command(command);
-        Process process = processBuilder.start();
-        process.waitFor(30, TimeUnit.SECONDS);
+        var commands = config.getEnvironment().getCommands();
+
+        String s = String.join(" ", commands);
+        String[] processPipes = s.split("&&");
+        ProcessBuilder processBuilder = new ProcessBuilder();
+
+        for (int i = 0; i < processPipes.length; i++) {
+            if (i == processPipes.length - 1) {
+                processBuilder.redirectInput(input);
+                processBuilder.redirectErrorStream(true);
+                processBuilder.redirectOutput(ProcessBuilder.Redirect.to(output));
+                processBuilder.redirectError(ProcessBuilder.Redirect.appendTo(output));
+            }
+
+            String[] command = processPipes[i].strip()
+                    .replace("%src%", source.getAbsolutePath())
+                    .replace("%ext%", config.getEnvironment().getExtension())
+                    .split(" ");
+            processBuilder.command(command);
+            Process process = processBuilder.start();
+            process.waitFor(30, TimeUnit.SECONDS);
+        }
+
+
+
+//        String c = String.join(" ", commands).replace("%src%", source.getAbsolutePath());
+//        System.out.println(c);
+//        String[] command = c.split(" ");
+//
+//        processBuilder.command(command);
+//        Process process = processBuilder.start();
+
         return Files.lines(output.toPath()).collect(Collectors.joining("\n")).getBytes(StandardCharsets.UTF_8);
     }
 }

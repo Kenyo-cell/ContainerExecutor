@@ -14,6 +14,7 @@ public class YAMLConfig {
     public static class Environment {
         private String language;
         private List<String> commands;
+        private String extension;
 
         public String getLanguage() {
             return language;
@@ -29,6 +30,14 @@ public class YAMLConfig {
 
         public void setCommands(List<String> commands) {
             this.commands = commands;
+        }
+
+        public String getExtension() {
+            return extension;
+        }
+
+        public void setExtension(String extension) {
+            this.extension = extension;
         }
     }
 

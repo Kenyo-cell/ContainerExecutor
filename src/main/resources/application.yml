@@ -1,7 +1,14 @@
 application:
-  workdir: "/Users/kenyo/context/"
+  workdir: &workdir "/Users/kenyo/context/"
   environment:
-    language: python
+    language: java
+    extension: java
     commands:
-      - python3
-  port: 9000
+      - "javac"
+      - "%src%.%ext%"
+      - "&&"
+      - "java"
+      - "-cp"
+      - *workdir
+      - "%src%"
+  port: 9002
