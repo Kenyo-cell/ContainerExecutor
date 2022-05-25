@@ -51,21 +51,11 @@ public class Executor {
 
             String[] command = processPipes[i].strip()
                     .replace("%src%", source.getAbsolutePath())
-                    .replace("%ext%", config.getEnvironment().getExtension())
                     .split(" ");
             processBuilder.command(command);
             Process process = processBuilder.start();
             process.waitFor(30, TimeUnit.SECONDS);
         }
-
-
-
-//        String c = String.join(" ", commands).replace("%src%", source.getAbsolutePath());
-//        System.out.println(c);
-//        String[] command = c.split(" ");
-//
-//        processBuilder.command(command);
-//        Process process = processBuilder.start();
 
         return Files.lines(output.toPath()).collect(Collectors.joining("\n")).getBytes(StandardCharsets.UTF_8);
     }
